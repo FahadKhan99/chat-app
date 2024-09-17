@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid()) @db.VarChar(36)
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  hashedPassword String?
+  image          String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  conversations Conversation[]
+  seenMessages  Message[]      @relation("SeenMessages")
+  accounts      Account[]
+  messages      Message[]
+}
+
+model Account {
+  id                String @id @default(cuid()) @db.VarChar(36)
+  userId            String @db.VarChar(36)
+  type              String
+  provider          String
+  providerAccountId String
+
+  refresh_token String? @db.VarChar(255)
+  access_token  String? @db.VarChar(255)
+  expires_at    Int?
+  token_type    String?
+  scope         String?
+  id_token      String? @db.VarChar(255)
+  session_state String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Conversation {
+  id      String   @id @default(cuid()) @db.VarChar(36)
+  name    String?
+  isGroup Boolean?
+
+  createdAt     DateTime @default(now())
+  lastMessageAt DateTime @default(now())
+
+  messages Message[]
+  users    User[]
+}
+
+model Message {
+  id    String  @id @default(cuid()) @db.VarChar(36)
+  body  String?
+  image String?
+  file  String? // URL or path to the file
+
+  createdAt DateTime @default(now())
+
+  seen           User[]       @relation("SeenMessages")
+  conversationId String       @db.VarChar(36)
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  senderId String @db.VarChar(36)
+  sender   User   @relation(fields: [senderId], references: [id])
+}
+
+// following is the Models for MongoDB database 
+
+// model User {
+//   id            String    @id @default(auto()) @map("_id") @db.ObjectId
+//   name          String?
+//   email         String?   @unique
+//   emailVerified DateTime?
+//   hasedPassword String?
+//   image         String?
+
+//   createAt DateTime @default(now())
+//   updateAt DateTime @updatedAt
+
+//   conversationIds String[]       @db.ObjectId // converstions this users have with others
+//   conversations   Conversation[] @relation(fields: [conversationIds], references: [id])
+
+//   seenMessageIds String[]  @db.ObjectId
+//   seenMessages   Message[] @relation("Seen", fields: [seenMessageIds], references: [id])
+
+//   accounts Account[]
+//   messages Message[]
+// }
+
+// model Account {
+//   id                String @id @default(auto()) @map("_id") @db.ObjectId
+//   userId            String @db.ObjectId
+//   type              String
+//   provider          String
+//   providerAccountId String
+
+//   refresh_token String? @db.String
+//   access_token  String? @db.String
+//   expires_at    Int?
+//   token_type    String?
+//   scope         String?
+//   id_token      String? @db.String
+//   session_state String?
+
+//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+//   @@unique([provider, providerAccountId])
+// }
+
+// model Conversation {
+//   id      String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name    String?
+//   isGroup Boolean?
+
+//   createdAt     DateTime @default(now())
+//   lastMessageAt DateTime @default(now())
+
+//   messageIds String[]  @db.ObjectId
+//   message    Message[]
+
+//   userIds String[] @db.ObjectId
+//   user    User[]   @relation(fields: [userIds], references: [id])
+// }
+
+// model Message {
+//   id    String  @id @default(auto()) @map("_id") @db.ObjectId
+//   body  String?
+//   image String?
+//   file  String? // url of the file
+
+//   createAt DateTime @default(now())
+
+//   seenIds String[] @db.ObjectId
+//   seen    User[]   @relation("Seen", fields: [seenIds], references: [id])
+
+//   conversationId String       @db.ObjectId
+//   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+//   senderId String @db.ObjectId
+//   sender   User   @relation(fields: [senderId], references: [id])
+// }
