@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(updatedUser);
-  } catch (error: any) {
+  } catch (error) {
     console.log(error, "SETTINGS_ERROR");
     return new NextResponse("Interal server error", { status: 500 });
   }

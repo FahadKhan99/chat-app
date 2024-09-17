@@ -86,7 +86,7 @@ export async function POST(req: Request, { params }: Props) {
     );
 
     return NextResponse.json(updatedMessage);
-  } catch (error: any) {
+  } catch (error) {
     return new NextResponse("Internal server error", { status: 500 });
   }
 }

@@ -56,7 +56,7 @@ const AuthForm = () => {
       try {
         await axios.post("/api/register", data);
         signIn("credentials", data);
-      } catch (error: any) {
+      } catch (error) {
         toast.error("Something went wrong");
       }
     }

@@ -60,7 +60,7 @@ export async function DELETE(req: Request, { params }: Props) {
     });
 
     return NextResponse.json(deletedConversation);
-  } catch (error: any) {
+  } catch (error) {
     console.log(error, "ERROR_CONVERSATION_DELETE");
     return new NextResponse("Interal server error", { status: 500 });
   }

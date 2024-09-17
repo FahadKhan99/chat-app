@@ -23,7 +23,7 @@ export default async function getUsers() {
     });
 
     return users;
-  } catch (error: any) {
+  } catch (error) {
     return [];
   }
 }

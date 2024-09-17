@@ -32,7 +32,7 @@ const getConversations = async () => {
     });
 
     return conversations;
-  } catch (error: any) {
+  } catch (error) {
     return [];
   }
 };
