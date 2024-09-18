@@ -21,15 +21,12 @@ const AuthForm = () => {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      console.log("authenticated");
       router.push("/users");
     } else {
-      console.log("UnAuthenticated");
     }
   }, [session?.status, router]);
 
   const toggleVariant = useCallback(() => {
-    console.log("inside the toggleVaraint");
     if (variant === "LOGIN") {
       setVariant("REGISTER");
     } else {

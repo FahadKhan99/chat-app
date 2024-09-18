@@ -74,7 +74,6 @@ export async function POST(req: Request, { params }: Props) {
 
     // If currentUser has already seen the message, return the conversation
     if (seenIds.indexOf(currentUser.id) !== -1) {
-      console.log("seenIds - ", seenIds);
       return NextResponse.json(conversation);
     }
 

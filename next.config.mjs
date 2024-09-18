@@ -19,9 +19,9 @@ const nextConfig = {
       ["next-superjson-plugin", {}], // plugin for warning as Date Objects
     ],
   },
-  eslint: {
-    ignoreDuringBuilds: true, // This will ignore ESLint errors during builds
-  },
+  // eslint: {
+  //   ignoreDuringBuilds: true, // This will ignore ESLint errors during builds
+  // },
 };
 
 export default nextConfig;

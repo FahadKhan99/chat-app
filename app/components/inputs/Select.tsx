@@ -1,24 +1,25 @@
-import ReactSelect from "react-select";
-
+import ReactSelect, { MultiValue } from "react-select";
 import { User } from "@prisma/client";
+
+interface SelectOption {
+  value: string; // Or number if IDs are numbers
+  label: string;
+}
 
 interface Props {
   users: User[];
   label?: string;
-  value?: Record<string, any>;
-  onChange: (value: Record<string, any>) => void;
-  options: Record<string, any>[];
+  value?: SelectOption[];
+  onChange: (value: SelectOption[]) => void;
+  options: SelectOption[];
   disabled?: boolean;
 }
 
-const Select = ({
-  label,
-  value,
-  onChange,
-  options,
-  disabled,
-  users,
-}: Props) => {
+const Select = ({ label, value, onChange, options, disabled }: Props) => {
+  const handleChange = (newValue: MultiValue<SelectOption>) => {
+    onChange(newValue as SelectOption[]); // Handle the change, casting to `SelectOption[]`
+  };
+
   return (
     <div className="z-[100] mb-11">
       <label className="block text-sm font-medium leading-6 text-gray-900">
@@ -28,7 +29,7 @@ const Select = ({
         <ReactSelect
           isDisabled={disabled}
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           isMulti
           options={options}
           // menuPortalTarget={document.body}

@@ -11,14 +11,7 @@ interface Props {
   errors: FieldErrors;
 }
 
-const MessageInput = ({
-  id,
-  required,
-  placeholder,
-  register,
-  errors,
-  type,
-}: Props) => {
+const MessageInput = ({ id, required, placeholder, register, type }: Props) => {
   return (
     <div className="relative w-full">
       <input

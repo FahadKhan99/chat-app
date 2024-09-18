@@ -3,11 +3,9 @@
 import {
   Dialog,
   DialogContent,
-  DialogClose,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { User } from "@prisma/client";
 import axios from "axios";
@@ -78,7 +76,7 @@ const ProfileSetting = ({ currentUser, isOpen, onClose }: Props) => {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose} >
+    <Dialog open={isOpen} onOpenChange={onClose}>
       {/* <DialogTrigger></DialogTrigger> */}
       <DialogContent>
         <DialogHeader>

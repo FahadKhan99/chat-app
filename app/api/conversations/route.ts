@@ -8,6 +8,7 @@ export async function POST(req: Request) {
     const currentUser = await getCurrentUser();
 
     const { userId, isGroup, members, name } = await req.json();
+    console.log("userId", userId);
 
     if (!currentUser?.id || !currentUser?.email) {
       return new NextResponse("Unauthroized", { status: 401 });

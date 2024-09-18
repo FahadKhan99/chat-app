@@ -6,8 +6,16 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { VscAdd } from "react-icons/vsc";
 import MessageInput from "./MessageInput";
 import { BiSolidSend } from "react-icons/bi";
-import { CldUploadButton, CldUploadWidget } from "next-cloudinary";
-import { PiLineVerticalThin } from "react-icons/pi";
+import { CldUploadButton } from "next-cloudinary";
+
+interface CloudinaryResult {
+  secure_url?: string;
+  info?:
+    | string
+    | {
+        secure_url?: string;
+      };
+}
 
 const MessageForm = () => {
   const { conversationId } = useConversation();
@@ -28,9 +36,27 @@ const MessageForm = () => {
     axios.post("/api/messages", { ...data, conversationId });
   };
 
-  const handleUpload = (result: any) => {
+  // const handleUpload = (result: CloudinaryResult) => {
+  //   const secureUrl = typeof result.info === 'string' ? result.info : result.info?.secure_url;
+
+  //   axios.post("/api/messages", {
+  //     image: secureUrl,
+  //     conversationId,
+  //   });
+  // };
+
+  const handleUpload = (result: CloudinaryResult) => {
+    // Check if secure_url is directly available or within the info object
+    const secureUrl =
+      result.secure_url ||
+      (typeof result.info === "string" ? result.info : result.info?.secure_url);
+
+    if (!secureUrl) {
+      return;
+    }
+
     axios.post("/api/messages", {
-      image: result?.info?.secure_url,
+      image: secureUrl,
       conversationId,
     });
   };
@@ -61,7 +87,7 @@ const MessageForm = () => {
           type="submit"
           className="rounded-full p-2 text-sky-500 hover:text-sky-600 transition cursor-pointer"
         >
-          <BiSolidSend size={25} className="" />
+          <BiSolidSend size={25} />
         </button>
       </form>
     </div>

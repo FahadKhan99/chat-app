@@ -8,7 +8,6 @@ export async function POST(req: Request) {
     const currentUser = await getCurrentUser();
     const { message, image, file, conversationId } = await req.json();
 
-    console.log(message, image, file, conversationId);
     if (!currentUser?.id || !currentUser?.email) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -62,7 +61,7 @@ export async function POST(req: Request) {
         },
       },
     });
-    
+
     // following is the Pusher things
 
     await pusherServer.trigger(conversationId, "message:new", newMessage);

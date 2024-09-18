@@ -19,7 +19,8 @@ const Header = ({ conversation }: Props) => {
   const otherUser = useOtherUser(conversation);
   const { members } = useActiveList();
 
-  const isActive = members.indexOf(otherUser?.email!) !== -1;
+  const otherUserEmail = otherUser?.email ?? "";
+  const isActive = members.indexOf(otherUserEmail) !== -1;
 
   const statusText = useMemo(() => {
     if (conversation.isGroup) {
@@ -27,7 +28,7 @@ const Header = ({ conversation }: Props) => {
     }
 
     return isActive ? "Available" : "Offline";
-  }, [conversation.isGroup, isActive]);
+  }, [conversation.isGroup, isActive, conversation.users.length]);
 
   return (
     <>
@@ -46,6 +47,8 @@ const Header = ({ conversation }: Props) => {
           )}
 
           <div className="flex flex-col">
+
+            {/* potential error (error with otherUsers in the entire application) */}
             <div>{conversation.name || otherUser.name}</div>
             <div className="text-sm font-light text-neutral-500">
               {statusText}

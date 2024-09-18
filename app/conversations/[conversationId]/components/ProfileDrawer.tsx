@@ -32,7 +32,8 @@ const ProfileDrawer = ({ conversation }: Props) => {
 
   const { members } = useActiveList();
 
-  const isActive = members.indexOf(otherUser?.email!) !== -1;
+  const otherUserEmail = otherUser?.email ?? "";
+  const isActive = members.indexOf(otherUserEmail) !== -1;
 
   const joinedDate = useMemo(() => {
     return format(new Date(otherUser.createdAt), "PP");
@@ -99,7 +100,7 @@ const ProfileDrawer = ({ conversation }: Props) => {
                       </dt>
                       <div className="flex flex-col">
                         {usersEmail.map((email) => (
-                          <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                          <dd key={email} className="mt-1 text-sm text-gray-900 sm:col-span-2">
                             {email}
                           </dd>
                         ))}

@@ -8,7 +8,6 @@ interface Props {
 
 const Sidebar = async ({ children }: Props) => {
   const currentUser = await getCurrentUser();
-  console.log({ currentUser });
   return (
     <div className="h-full">
       <DesktopSidebar currentUser={currentUser!} />

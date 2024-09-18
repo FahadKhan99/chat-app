@@ -31,7 +31,12 @@ const getConversations = async () => {
       },
     });
 
-    return conversations;
+    // makes sure that only conversation with two users are retreived.
+    const properConversation = conversations.filter(
+      (conversation) => conversation.users.length > 1
+    );
+
+    return properConversation;
   } catch (error) {
     return [];
   }

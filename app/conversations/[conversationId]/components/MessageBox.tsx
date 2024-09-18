@@ -62,11 +62,13 @@ const MessageBox = ({ message, isLastMessage }: Props) => {
           {message.image ? (
             <Image
               onClick={() => setImageModalOpen(true)}
-              alt="image"
+              alt="Image"
               src={message.image}
               height={288}
               width={288}
               className="object-cover cursor-pointer hover:scale-110 transition translate"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 288px" // Customize based on your layout needs
+              style={{ width: "auto", height: "auto" }} // Maintain aspect ratio
             />
           ) : (
             <div>{message.body}</div>

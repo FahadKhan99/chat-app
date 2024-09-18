@@ -33,7 +33,7 @@ const ConversationBox = ({ conversation, selected }: Props) => {
 
   const userEmail = useMemo(() => {
     return session?.data?.user?.email;
-  }, []);
+  }, [session?.data?.user?.email]);
 
   const hasSeen = useMemo(() => {
     if (!lastMessage) {

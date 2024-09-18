@@ -1,7 +1,6 @@
 "use client";
 
 import { User } from "@prisma/client";
-import Image from "next/image";
 
 import {
   Avatar as AvatarShadcn,
@@ -18,7 +17,8 @@ interface Props {
 const Avatar = ({ user }: Props) => {
   const { members } = useActiveList();
 
-  const isActive = members.indexOf(user?.email!) !== -1;
+  const userEmail = user?.email ?? "";
+  const isActive = members.indexOf(userEmail) !== -1;
 
   // to display the initials as avatar
   const getInitials = () => {

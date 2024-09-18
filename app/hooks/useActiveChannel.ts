@@ -3,6 +3,13 @@ import useActiveList from "./useActiveList";
 import { Channel, Members } from "pusher-js";
 import { pusherClient } from "../libs/pusher";
 
+interface Member {
+  id: string;
+  name?: string;
+}
+
+// actual type -> Record<string, any>
+
 const useActiveChannel = () => {
   const { add, remove, set } = useActiveList();
   const [activeChannel, setActiveChannel] = useState<Channel | null>(null);
@@ -19,17 +26,15 @@ const useActiveChannel = () => {
     channel.bind("pusher:subscription_succeeded", (members: Members) => {
       const initialMembers: string[] = [];
 
-      members.each((member: Record<string, any>) =>
-        initialMembers.push(member.id)
-      );
+      members.each((member: Member) => initialMembers.push(member.id));
       set(initialMembers);
     });
 
-    channel.bind("pusher:member_added", (member: Record<string, any>) => {
+    channel.bind("pusher:member_added", (member: Member) => {
       add(member.id);
     });
 
-    channel.bind("pusher:member_removed", (member: Record<string, any>) => {
+    channel.bind("pusher:member_removed", (member: Member) => {
       remove(member.id);
     });
 

@@ -7,7 +7,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 import axios from "axios";
@@ -20,6 +19,11 @@ import Select from "@/app/components/inputs/Select";
 import Button from "@/app/components/Button";
 import { Separator } from "@/components/ui/separator";
 
+interface SelectOption {
+  value: string; // Or number if IDs are numbers
+  label: string;
+}
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -28,6 +32,11 @@ interface Props {
 const GroupChatModal = ({ isOpen, onClose, users }: Props) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
+  const options: SelectOption[] = users.map((user) => ({
+    value: user.id,
+    label: user.name ?? "", // Provide a default empty string if user.name is null
+  }));
 
   const {
     register,
@@ -81,10 +90,7 @@ const GroupChatModal = ({ isOpen, onClose, users }: Props) => {
                 users={users}
                 disabled={isLoading}
                 label="Members"
-                options={users.map((user) => ({
-                  value: user.id,
-                  label: user.name,
-                }))}
+                options={options}
                 onChange={(value) =>
                   setValue("members", value, { shouldValidate: true })
                 }
