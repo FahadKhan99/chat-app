@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "app/libs/pusher.js"  ],
   "exclude": [
     "node_modules"
   ]
